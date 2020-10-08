@@ -1,19 +1,45 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <img alt="Vue logo" src="./assets/logo.png" />
+    <span>{{ getEmployeeData }}</span>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import api from "./fetch-api"
 export default {
-  name: 'App',
+  data() {
+    return {
+      employeeData:{
+          id: 0,
+          employee_name: "",
+          employee_salary: 0,
+          employee_age: 0,
+          profile_image: "",
+        }
+      };
+  },
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+  },
+  mounted() {
+    this.fetch();
+  },
+  methods: {
+    async fetch() {
+      const [response] = await Promise.all([api()]);
+      const responseBody = JSON.parse(response.data)
+      const data = responseBody.data
+      console.log(data)
+      this.employeeData = data
+    },
+  },
+  computed: {
+    getEmployeeData() {
+      return this.employeeData;
+    },
+  },
+};
 </script>
 
 <style>
