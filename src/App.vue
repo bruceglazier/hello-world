@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import api from "./fetch-api"
+import api from "./axios-api"
 export default {
   data() {
     return {
@@ -27,10 +27,10 @@ export default {
   },
   methods: {
     async fetch() {
-      const [response] = await Promise.all([api()]);
-      const responseBody = JSON.parse(response.data)
-      const data = responseBody.data
-      console.log(data)
+      const response = await api();
+      console.log(response)
+      const responseBody = response.data
+      const data = responseBody.data ? responseBody.data : responseBody
       this.employeeData = data
     },
   },
